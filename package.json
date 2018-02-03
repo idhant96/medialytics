@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "video classifier",
   "main": "index.js",
-  "devDependencies": {
-    "electron": "^1.7.11"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
