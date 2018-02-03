@@ -1,39 +1,20 @@
 from google.cloud import vision
 from google.cloud.vision import types
 import io
+import json
+from .Helpers import Helper
 
 
 class Vision(object):
     google_vision_client = vision.ImageAnnotatorClient()
     image_path = ''
-    image = None
-    data = None
+    result = {}
+
     @staticmethod
     def get_data(path):
         with io.open(path, 'rb') as image_file:
             data = image_file.read()
         return data
-
-    @staticmethod
-    def get_desc(label):
-        drinking_tags = ['drink', 'alcoholic beverage', 'beer', 'alcohol', 'pint us', 'bar', 'liqueur']
-        sex_tags = ['women\'s erotica', 'undergarment', 'erotic literature', 'love', 'romance', 'muscle']
-        smoking_tags = ['tobacco products', 'cigarette', 'cigar', 'smoking']
-        violence = ['riot', 'militia', 'police', 'explosion', 'disaster', 'aggression', 'war', 'military organization', \
-                    'army', 'mercenary', 'battle']
-        for props in label:
-            for tag in drinking_tags:
-                if tag == props.description:
-                    print(props.description, round(props.score*100, 2))
-            for tag in sex_tags:
-                if tag == props.description:
-                    print(props.description, round(props.score * 100, 2))
-            for tag in smoking_tags:
-                if tag == props.description:
-                    print(props.description, round(props.score * 100, 2))
-            for tag in violence:
-                if tag == props.description:
-                    print(props.description, round(props.score * 100, 2))
 
     @classmethod
     def detect_labels(cls, img):
@@ -48,10 +29,10 @@ class Vision(object):
                            'LIKELY', 'VERY_LIKELY')
 
         #label notations
-        cls.get_desc(labels)
+        cls.result = Helper.get_desc(labels)
 
         # safe notations
-        print('adult: {}'.format(likelihood[safe_annotations.adult]))
-        # print('medical: {}'.format(likelihood[safe_annotations.medical]))
-        # print('spoofed: {}'.format(likelihood[safe_annotations.spoof]))
-        print('violence: {}'.format(likelihood[safe_annotations.violence]))
+        cls.result['adult'] = likelihood[safe_annotations.adult]
+        cls.result['violence'] = likelihood[safe_annotations.violence]
+        print(json.dumps(cls.result))
+        return json.dumps(cls.result)
