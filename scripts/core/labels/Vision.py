@@ -1,13 +1,14 @@
 from google.cloud import vision
 from google.cloud.vision import types
 import io
+import json
+from .Helpers import Helper
 
 
 class Vision(object):
     google_vision_client = vision.ImageAnnotatorClient()
     image_path = ''
-    image = None
-    data = None
+    result = {}
 
     @staticmethod
     def get_data(path):
@@ -26,9 +27,12 @@ class Vision(object):
         safe_annotations = safe_search.safe_search_annotation
         likelihood = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
                            'LIKELY', 'VERY_LIKELY')
-        print('adult: {}'.format(likelihood[safe_annotations.adult]))
-        print('medical: {}'.format(likelihood[safe_annotations.medical]))
-        print('spoofed: {}'.format(likelihood[safe_annotations.spoof]))
-        print('violence: {}'.format(likelihood[safe_annotations.violence]))
-        for label in labels:
-            print(label.description)
+
+        #label notations
+        cls.result = Helper.get_desc(labels)
+
+        # safe notations
+        cls.result['adult'] = likelihood[safe_annotations.adult]
+        cls.result['violence'] = likelihood[safe_annotations.violence]
+        print(json.dumps(cls.result))
+        return json.dumps(cls.result)
