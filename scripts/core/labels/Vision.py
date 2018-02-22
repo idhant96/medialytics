@@ -36,5 +36,5 @@ class Vision(object):
         cls.result['adult'] = likelihood[safe_annotations.adult]
         cls.result['violence'] = likelihood[safe_annotations.violence]
         print(json.dumps(cls.result))
-        sys.stdout.flush()
+        # sys.stdout.flush()
         # return json.dumps(cls.result)
