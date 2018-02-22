@@ -177,7 +177,8 @@ document.getElementById('imgInp').onchange = function () {
       const run = spawn('python', ['scripts/run.py', path]);
 
 run.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
+  var response = JSON.parse(data);
+  console.log(response)
 });
 
 run.stderr.on('data', (data) => {
