@@ -1,0 +1,76 @@
+extends layout
+block content
+	.container
+		.row
+			.col-sm-12.col-md-8
+				video#vid(controls='', poster=source, height='300', width='500')
+					source(src=source2, type='video/mp4')
+					|   Your browser does not support the video tag.
+				.container
+					.row
+						form(action='/videos', method='post')
+							.container
+								#form-group
+									input#video-input(type='file' name='process')
+									input#process.form-control(type='submit', name='upvote', value='process')
+									button.btn.btn-success(type='button') Upload
+			.col-sm-12.col-md-4
+				br
+				br
+				h3  Meta Data 
+				.container
+					each key, val in responses
+						.accordion-option
+							a.toggle-accordion.active(href='javascript:void(0)', accordion-id='#accordion')
+						.clearfix
+						#accordion.panel-group(role='tablist', aria-multiselectable='true')
+							.panel.panel-default
+								#headingOne.panel-heading(role='tab')
+									h4.panel-title
+										a(id=val role='button', data-toggle='collapse', data-parent='#accordion', href='#'+val, aria-expanded='true', aria-controls=val)=val
+
+								.panel-collapse.collapse.in(id=val role='tabpanel', aria-labelledby='headingOne')
+									each time1, time2 in key
+										.panel-body= time1 + ' ' + time2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	script(src='/bower_components/jquery/dist/jquery.js')
+	script.
+		document.getElementById('video-input').onchange = function() {
+		var path=document.getElementById("video-input").files[0].name;
+		document.getElementById('vid').src='/scripts/vid/'+path;
+		};
+				$(document).ready(function() {
+					$(".toggle-accordion").on("click", function() {
+						var accordionId = $(this).attr("accordion-id"),
+							numPanelOpen = $(accordionId + ' .collapse.in').length;
+						$(this).toggleClass("active");
+						if (numPanelOpen == 0) {
+							openAllPanels(accordionId);
+						} else {
+							closeAllPanels(accordionId);
+						}
+					})
+					openAllPanels = function(aId) {
+						console.log("setAllPanelOpen");
+						$(aId + ' .panel-collapse:not(".in")').collapse('show');
+					}
+					closeAllPanels = function(aId) {
+						console.log("setAllPanelclose");
+						$(aId + ' .panel-collapse.in').collapse('hide');
+					}
+				});
+
+

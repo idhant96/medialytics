@@ -1,0 +1,29 @@
+extends layout
+block content
+	
+	.container
+		.row
+			.col-sm-12.col-md-8
+				img#image.img-fluid(src=source, alt='images', width='600', height='500')
+				.container
+					.row
+						form(action='/images', method='post')
+							.container
+								#form-group
+
+									input#image-input(type='file' name='process')
+									input#process.form-control(type='submit', name='upvote', value='process')
+									button.btn.btn-success(type='button') Upload
+			.col-sm-12.col-md-4
+				br
+				br
+				h3  Meta Data 
+				.card
+					ul.list-group.list-group-flush
+						each val, key in responses
+							li.list-group-item=key + ' ' + val
+	script.
+		document.getElementById('image-input').onchange = function() {
+		var path=document.getElementById("image-input").files[0].name;
+		document.getElementById('image').src='/scripts/img/'+path;
+		};

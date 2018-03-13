@@ -1,0 +1,26 @@
+doctype html
+html.no-js(lang='')
+	head
+		meta(charset='utf-8')
+		title Medialytics
+		meta(name='description', content='')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+	nav.navbar.navbar-expand-lg.navbar-light.bg-light
+		a.navbar-brand(href='/') medialytics
+		button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+			span.navbar-toggler-icon
+		#navbarSupportedContent.collapse.navbar-collapse
+			ul.navbar-nav.mr-auto
+				li.nav-item
+					a.nav-link(href='/images') Images 
+					span.sr-only (current)
+				li.nav-item
+					a.nav-link(href='/videos') Videos
+	.container
+		h3 Classify Images and Videos in real time
+		p Select the Use case from the navbar given above
+
+	block content
+	script(src='/bower_components/jquery/dist/jquery.js')  
+	script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
